@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Gage's GTM Assistant</title>
+    <!-- This line imports TailwindCSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- This adds the Inter font, which is similar to Anysphere's branding -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="./app.js" defer></script>
+    <style>
+        /* We add a custom style block for things Tailwind can't do easily, like the font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Adding a subtle glow effect to the main container, just like on the Anysphere site */
+        .glow-shadow {
+            box-shadow: 0 0 25px rgba(79, 174, 255, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 flex items-center justify-center min-h-screen p-4">
+
+    <!-- A main container to wrap both the app and the new standalone footer -->
+    <main class="flex flex-col items-center">
+    
+        <!-- This is the main application window -->
+        <div class="bg-gray-800/90 p-8 rounded-2xl shadow-2xl w-full max-w-2xl border border-gray-600/50 backdrop-blur-sm glow-shadow">
+
+            <!-- The 'src' now points to your 'anysphere-logo.png' file. -->
+            <img src="./anysphere-logo.png" alt="Anysphere Logo" class="mx-auto h-16 w-16 mb-4">
+            
+            <h1 class="text-3xl font-bold text-center text-white mb-6">Gage's Sprout Social GTM Assistant</h1>
+
+            <div class="space-y-4">
+                <div>
+                    <label for="company-domain" class="block text-sm font-medium text-gray-400">Company Domain</label>
+                    <input type="text" id="company-domain" class="mt-1 block w-full p-3 bg-gray-700/50 border border-gray-500 rounded-md text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200">
+                </div>
+                <div>
+                    <label for="first-names" class="block text-sm font-medium text-gray-400">Prospect First Name(s)</label>
+                    <input type="text" id="first-names" class="mt-1 block w-full p-3 bg-gray-700/50 border border-gray-500 rounded-md text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" placeholder="e.g., Jane, John">
+                </div>
+                <div>
+                    <label for="job-titles" class="block text-sm font-medium text-gray-400">Prospect Job Title(s)</label>
+                    <input type="text" id="job-titles" class="mt-1 block w-full p-3 bg-gray-700/50 border border-gray-500 rounded-md text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200" placeholder="e.g., VP of Marketing, Content Lead">
+                </div>
+                <div>
+                    <label for="screenshot" class="block text-sm font-medium text-gray-400">Optional: Screenshot</label>
+                    <input type="file" id="screenshot" accept="image/*" class="hidden">
+                    <div id="screenshot-area" class="mt-1 block w-full p-6 bg-gray-700/50 border-2 border-dashed border-gray-500 rounded-md text-center cursor-pointer hover:border-blue-400 hover:bg-gray-600/50 transition-all duration-200">
+                        <div id="screenshot-placeholder">
+                            <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <p class="text-gray-400 text-sm">Click to upload or paste an image</p>
+                        </div>
+                        <img id="screenshot-preview" class="hidden mx-auto max-h-32 rounded-lg" alt="Screenshot preview">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <button id="generate-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
+                    Generate Email
+                </button>
+            </div>
+
+            <div id="result-container" class="mt-8 border-t border-gray-700 pt-6 hidden">
+                <h2 class="text-xl font-semibold text-white mb-4">Generated Email:</h2>
+                <div id="result-text" class="bg-gray-700/50 p-4 rounded-lg border border-gray-500 whitespace-pre-wrap text-gray-200">
+                    <!-- The magic happens here... -->
+                </div>
+            </div>
+
+            <!-- The text part of the footer is inside the box -->
+            <div class="text-center mt-8 pt-6 border-t border-gray-600">
+                <p class="text-sm text-gray-400">Made with Cursor, from a guy that really wants to sell Cursor</p>
+                <p class="text-xs text-gray-500">Hosted on Vercel to make Rachel & Tomer happy 😎</p>
+            </div>
+        
+        </div> <!-- End of the main application window -->
+
+        <!-- What this app does section -->
+        <details class="mt-8 text-center">
+            <summary class="text-gray-300 hover:text-blue-300 transition-colors duration-200 cursor-pointer">
+                What does this application do?
+            </summary>
+            <div class="mt-3 text-gray-400 text-sm max-w-md mx-auto">
+                This calls Gemini 2.5 Pro API with a pre-built system prompt I designed for use internally at Sprout Social, which conducts web research on the target company and generates personalized cold outbound emails based on current events and role-specific pain points.
+            </div>
+        </details>
+
+        <!-- Article link section -->
+        <div class="mt-8 p-6 bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-2xl border border-blue-500/30 backdrop-blur-sm">
+            <div class="text-center">
+                <h3 class="text-lg font-semibold text-white mb-3">Want to learn more about prompt architecture for sales?</h3>
+                <p class="text-gray-300 mb-4 text-sm">I wrote a detailed article explaining how this system works and how to scale authentic outbound using AI.</p>
+                <a href="https://www.linkedin.com/pulse/scaling-authentic-outbound-google-gemini-gage-demoss-oxjec/" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    Read the Article
+                </a>
+            </div>
+        </div>
+
+        <!-- The footer now *only* contains your photo -->
+        <footer class="text-center mt-8">
+            <!-- UPDATED: Image is now clickable and links to LinkedIn -->
+            <a href="https://www.linkedin.com/in/gagedemoss/" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="inline-block transition-transform duration-300 hover:scale-110 hover:shadow-2xl">
+                <img src="./my-photo.jpeg" alt="A photo of Gage" class="mx-auto h-32 w-32 rounded-full object-cover border-2 border-blue-500 hover:border-blue-400 transition-colors duration-300">
+            </a>
+        </footer>
+
+    </main>
+</body>
+</html>
